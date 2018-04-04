@@ -1,103 +1,98 @@
 swagger: "2.0"
+
 info:
   version: "0.0.1"
   title: HomeAutomation API
-# basePath prefixes all resource paths 
-basePath: /
-# 
+
+basePath: /v1
+
 schemes:
-  # tip: remove http to make production-grade
   - http
   - https
-# format of bodies a client can send (Content-Type)
-# consumes:
-#   - application/json
-# format of the responses to the client (Accepts)
+
+consumes:
+  - application/json
+
 produces:
   - application/json
+
 paths:
   /aircon:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
     get:
-      description: Operate Air Conditioner
-      # used as the method name of the controller
+      description: エアコンを操作します
       operationId: aircon
       parameters:
         - name: power
           in: query
-          description: Power state
+          description: 電源
           required: true
           type: boolean
-          
+
         - name: mode
           in: query
           required: false
-          description: Run mode (Default Auto)
+          description: 運転モード (デフォルト Auto)
           type: string
           pattern: "^([Aa][Uu][Tt][Oo]|[Dd][Rr][Yy]|[Cc][Oo][Ll][Dd]|[Ww][Aa][Rr][Mm]|[Ff][Aa][Nn])$"
-          
+
         - name: temp
           in: query
-          description: Target temperture (Default 25)
+          description: 温度 (デフォルト 25℃)
           required: false
           type: integer
-          
+
         - name: fan
           in: query
-          description: Fan speed (Default Auto)
+          description: 風量 (デフォルト Auto)
           required: false
           type: string
           pattern: "^([Aa][Uu][Tt][Oo]|[Ss][Ii][Ll][Ee][Nn][Tt]|[1-5])$"
-          
+
         - name: swing
           in: query
-          description: Swing enable state (Default true)
+          description: 風向上下させるかどうか (デフォルト true)
           required: false
           type: boolean
-          
+
         - name: powerful
           in: query
-          description: Powerful mode state (Default false)
+          description: パワフルモード (デフォルト false)
           required: false
           type: boolean
 
         - name: timer
           in: query
-          description: Timer mode (Default None)
+          description: タイマーモード (デフォルト None)
           required: false
           type: string
           pattern: "^([Nn][Oo][Nn][Ee]|[Oo][Nn]|[Oo][Ff]{2})$"
-          
+
         - name: hour
           in: query
-          description: Timer Hour
+          description: タイマー時間
           required: false
           type: integer
           minimum: 1
           maximum: 12
-          
+
       responses:
         "204":
-          description: Success
-        # responses may fall through to errors
+          description: 操作に成功
+
         default:
-          description: Error
+          description: 予期しないエラー
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  /swagger:
-    x-swagger-pipe: swagger_raw
-# complex objects have schema definitions
+            $ref: "#/definitions/Error"
+
 definitions:
-  # SuccessResponse:
-  #   required:
-  #     - message
-  #   properties:
-  #     message:
-  #       type: string
-  ErrorResponse:
+  Error:
     required:
+      - status
       - message
     properties:
+      status:
+        description: HTTPステータスコード
+        type: integer
       message:
+        description: エラーメッセージ
         type: string
