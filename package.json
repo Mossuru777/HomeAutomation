@@ -1,0 +1,20 @@
+{
+  "name": "homeautomation",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mossuru777",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "@types/node": "^8.10.2",
+    "typescript": "^2.8.1"
+  },
+  "devDependencies": {
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.8.0"
+  }
+}
