@@ -1,9 +1,7 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: Hello World App
-# during dev, should point to your local machine
-host: localhost:10010
+  title: HomeAutomation API
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -12,31 +10,76 @@ schemes:
   - http
   - https
 # format of bodies a client can send (Content-Type)
-consumes:
-  - application/json
+# consumes:
+#   - application/json
 # format of the responses to the client (Accepts)
 produces:
   - application/json
 paths:
-  /hello:
+  /aircon:
     # binds a127 app logic to a route
     x-swagger-router-controller: hello_world
     get:
-      description: Returns 'Hello' to the caller
+      description: Operate Air Conditioner
       # used as the method name of the controller
-      operationId: hello
+      operationId: aircon
       parameters:
-        - name: name
+        - name: power
           in: query
-          description: The name of the person to whom to say hello
+          description: Power state
+          required: true
+          type: boolean
+          
+        - name: mode
+          in: query
+          required: false
+          description: Run mode (Default Auto)
+          type: string
+          pattern: "^([Aa][Uu][Tt][Oo]|[Dd][Rr][Yy]|[Cc][Oo][Ll][Dd]|[Ww][Aa][Rr][Mm]|[Ff][Aa][Nn])$"
+          
+        - name: temp
+          in: query
+          description: Target temperture (Default 25)
+          required: false
+          type: integer
+          
+        - name: fan
+          in: query
+          description: Fan speed (Default Auto)
           required: false
           type: string
+          pattern: "^([Aa][Uu][Tt][Oo]|[Ss][Ii][Ll][Ee][Nn][Tt]|[1-5])$"
+          
+        - name: swing
+          in: query
+          description: Swing enable state (Default true)
+          required: false
+          type: boolean
+          
+        - name: powerful
+          in: query
+          description: Powerful mode state (Default false)
+          required: false
+          type: boolean
+
+        - name: timer
+          in: query
+          description: Timer mode (Default None)
+          required: false
+          type: string
+          pattern: "^([Nn][Oo][Nn][Ee]|[Oo][Nn]|[Oo][Ff]{2})$"
+          
+        - name: hour
+          in: query
+          description: Timer Hour
+          required: false
+          type: integer
+          minimum: 1
+          maximum: 12
+          
       responses:
-        "200":
+        "204":
           description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
         # responses may fall through to errors
         default:
           description: Error
@@ -46,12 +89,12 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
-  HelloWorldResponse:
-    required:
-      - message
-    properties:
-      message:
-        type: string
+  # SuccessResponse:
+  #   required:
+  #     - message
+  #   properties:
+  #     message:
+  #       type: string
   ErrorResponse:
     required:
       - message
