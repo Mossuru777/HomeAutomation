@@ -12,6 +12,7 @@ export function isErrorResponse(e: any): e is ErrorResponse {
 
 export function responseSuccessNoContents(res: express.Response): express.Response {
     res.status(204);
+    res.end();
     return res;
 }
 
