@@ -1,26 +1,26 @@
 {
   "name": "homeautomation",
   "version": "0.0.1",
-  "description": "",
-  "main": "app.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "swagger project test"
+    "start": "node dist/index.js"
   },
   "author": "Mossuru777",
   "license": "ISC",
   "private": true,
   "dependencies": {
+    "@types/body-parser": "^1.16.8",
     "@types/express": "^4.11.1",
+    "@types/express-openapi": "^0.11.32",
+    "@types/js-yaml": "^3.11.1",
     "@types/node": "^8.10.2",
-    "@types/swagger-express-mw": "^0.7.6",
+    "body-parser": "^1.18.2",
     "express": "^4.16.3",
-    "swagger-express-mw": "^0.7.0",
+    "express-openapi": "^1.5.0",
+    "js-yaml": "^3.11.0",
     "typescript": "^2.8.1"
   },
   "devDependencies": {
-    "should": "^13.2.1",
-    "supertest": "^3.0.0",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.8.0"
   }
