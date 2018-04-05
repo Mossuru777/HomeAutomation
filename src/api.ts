@@ -11,7 +11,7 @@ export function responseSuccessNoContents(res: express.Response): express.Respon
 }
 
 export function responseError(res: express.Response, error: ErrorResponse): express.Response {
-    res.writeHead(error.status, error.message, {
+    res.writeHead(error.status, {
         "Content-Type": "application/json"
     });
     res.end(JSON.stringify(error));
