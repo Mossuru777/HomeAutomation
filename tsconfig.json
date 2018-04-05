@@ -8,6 +8,9 @@
     "removeComments": true,                /* Do not emit comments to output. */
     "newLine": "LF",
 
+    "rootDir": "src",
+    "outDir": "dist",
+
     /* Strict Type-Checking Options */
     "strict": true,                        /* Enable all strict type-checking options. */
 

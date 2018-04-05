@@ -2,7 +2,6 @@ import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as express from "express";
 import * as openapi from "express-openapi";
-import {OpenApi} from "express-openapi";
 import * as bodyParser from "body-parser";
 
 export class Server {
@@ -17,14 +16,13 @@ export class Server {
         }
 
         // api.ymlを読み込んでOpenAPI.ApiDefinitionにキャスト
-        const apiDefinition = ((): OpenApi.ApiDefinition => {
+        const apiDefinition = ((): openapi.OpenApi.ApiDefinition => {
             const doc = yaml.safeLoad(fs.readFileSync("api.yml", "utf-8"));
-            if (doc != undefined && doc.hasOwnProperty("swagger") && doc.hasOwnProperty("info")
+            if (doc !== undefined && doc.hasOwnProperty("swagger") && doc.hasOwnProperty("info")
                 && doc.hasOwnProperty("paths")) {
-                return doc as OpenApi.ApiDefinition;
-            } else {
-                throw Error("api.yml can't cast to 'OpenAPI.ApiDefinition'.");
+                return doc as openapi.OpenApi.ApiDefinition;
             }
+            throw Error("api.yml can't cast to 'OpenAPI.ApiDefinition'.");
         })();
 
         // express-openapi 初期化
