@@ -2,7 +2,7 @@ import * as express from "express";
 
 export interface ErrorResponse {
     readonly status: number;
-    readonly message: string;
+    readonly messages: string[];
 }
 
 export function responseSuccessNoContents(res: express.Response): express.Response {
