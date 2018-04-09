@@ -1,0 +1,9 @@
+# UNIX domain socket http listening
+# file path: <string>
+# set `~` or `null` to disable.
+socket_path: /var/run/home_automation.sock
+
+# TCP http listening
+# port: <number>
+# set `~` or `null` to disable.
+tcp_port: 10080
