@@ -1,9 +1,6 @@
 {
   "name": "homeautomation",
   "version": "0.0.1",
-  "engines": {
-    "node": ">=8.9.0"
-  },
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run clean && tsc",
@@ -31,5 +28,11 @@
   "devDependencies": {
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.8.0"
+  },
+  "os": [
+    "linux"
+  ],
+  "engines": {
+    "node": ">=8.9.0"
   }
 }
