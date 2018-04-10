@@ -1,4 +1,5 @@
 dist/
+install_files/dist
 
 # Created by https://www.gitignore.io/api/osx,node,linux,windows,intellij+all
 

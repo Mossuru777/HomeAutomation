@@ -3,10 +3,16 @@
   "version": "0.0.1",
   "main": "dist/index.js",
   "scripts": {
+    "preinstall": "npm run is-build & node install_files/dist/preinstall.js & npm run build",
+    "postinstall": "node install_files/dist/postinstall.js",
+    "preuninstall": "node install_files/dist/preuninstall.js",
     "build": "npm run clean && tsc",
     "clean": "del-cli dist",
-    "lint": "tslint --format stylish --project .",
-    "start": "node dist/index.js"
+    "dev-start": "npm run build & node dist/index.js",
+    "lint": "tslint --fix --format stylish --project .",
+    "is-build": "npm run is-clean & tsc --project install_files",
+    "is-clean": "del-cli install_files/dist",
+    "is-lint": "tslint --fix --format stylish --project install_files"
   },
   "author": "Mossuru777",
   "license": "ISC",
@@ -17,11 +23,14 @@
     "@types/express-openapi": "^0.11.32",
     "@types/js-yaml": "^3.11.1",
     "@types/node": "^8.10.2",
+    "@types/semver": "^5.5.0",
     "body-parser": "^1.18.2",
+    "colors": "^1.2.1",
     "daikin-ir": "git+ssh://git@github.com/Mossuru777/DaikinIR.git",
     "express": "^4.16.3",
     "express-openapi": "^1.5.0",
     "js-yaml": "^3.11.0",
+    "semver": "^5.5.0",
     "sprintf-js": "^1.1.1",
     "typescript": "^2.8.1"
   },

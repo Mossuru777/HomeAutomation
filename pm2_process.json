@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "name": "homeautomation",
+      "script": "dist/index.js",
+      "node_args": "--max_old_space_size=256",
+      "exec_mode": "fork",
+      "pid_file": "/usr/local/var/run/homeautomation.pid",
+      "autorestart": true,
+      "merge_logs": true,
+      "out_file": "/usr/local/var/log/homeautomation.stdout.log",
+      "error_file": "/usr/local/var/log/homeautomation.stderr.log",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
