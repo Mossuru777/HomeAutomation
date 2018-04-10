@@ -2,15 +2,14 @@ import * as child_process from "child_process";
 import "colors";
 import * as semver from "semver";
 
-// pm2 install check
-if (child_process.spawnSync("npm list -g pm2", { shell: true }).status !== 0) {
-    console.log("Please install pm2 as global like `sudo npm install -g pm2@2`.".bgRed);
+// pm2 test flight
+try {
+    const testFlight = child_process.execSync("pm2 -v", { encoding: "utf8" });
+    console.log(testFlight);
+} catch {
+    console.error("Please install pm2 as global like `sudo npm install -g pm2@2`.".bgRed);
     process.exit(1);
 }
-
-// pm2 test flight
-const testFlight = child_process.execSync("pm2 -v", { encoding: "utf8" });
-console.log(testFlight);
 
 // pm2 version check
 const pm2Version = child_process.execSync("pm2 -v", { encoding: "utf8" }).trim();
