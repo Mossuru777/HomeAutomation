@@ -3,9 +3,7 @@ import "colors";
 import * as semver from "semver";
 
 // pm2 install check
-try {
-    child_process.execSync("npm list -g pm2");
-} catch {
+if (child_process.spawnSync("npm list -g pm2", { shell: true }).status !== 0) {
     console.log("Please install pm2 as global like `sudo npm install -g pm2@2`.".bgRed);
     process.exit(1);
 }
