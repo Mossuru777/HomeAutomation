@@ -3,12 +3,18 @@
   "version": "0.0.1",
   "main": "dist/index.js",
   "scripts": {
-    "postinstall": "postinstall-build dist --script build && node dist/installer_files/postinstall.js",
-    "preuninstall": "node dist/installer_files/preuninstall.js",
-    "build": "tsc",
-    "clean": "del-cli dist",
-    "lint": "tslint --fix --format stylish --project .",
-    "dev-start": "npm run lint && npm run build && node dist/index.js"
+    "preinstall": "node installer_files/dist/preinstall.js",
+    "install": "node installer_files/dist/install.js",
+    "postinstall": "node installer_files/dist/postinstall.js",
+    "preuninstall": "node installer_files/dist/preuninstall.js",
+    "build:main": "tsc",
+    "clean:main": "del-cli dist",
+    "lint:main": "tslint --fix --format stylish --project .",
+    "build:installer_files": "tsc --project installer_files",
+    "clean:installer_files": "del-cli installer_files/dist",
+    "lint:installer_files": "tslint --fix --format stylish --project installer_files",
+    "prepare": "npm-run-all -p clean:* lint:* -p build:*",
+    "dev-start": "npm-run-all -p clean:main lint:main -s build:main && node dist/index.js"
   },
   "author": "Mossuru777",
   "license": "ISC",
@@ -20,7 +26,6 @@
     "express": "^4.16.3",
     "express-openapi": "^1.5.0",
     "js-yaml": "^3.11.0",
-    "postinstall-build": "^5.0.1",
     "semver": "^5.5.0",
     "sprintf-js": "^1.1.1"
   },
@@ -31,6 +36,10 @@
     "@types/js-yaml": "^3.11.1",
     "@types/node": "^8.10.4",
     "@types/semver": "^5.5.0",
+    "@types/sprintf-js": "^1.1.0",
+    "del-cli": "^1.1.0",
+    "husky": "^0.15.0-rc.13",
+    "npm-run-all": "^4.1.2",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.8.0",
     "typescript": "^2.8.1"
@@ -40,5 +49,10 @@
   ],
   "engines": {
     "node": ">=8.9.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prepare"
+    }
   }
 }
