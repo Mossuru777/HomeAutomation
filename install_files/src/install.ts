@@ -2,12 +2,6 @@ import * as child_process from "child_process";
 import "colors";
 import * as semver from "semver";
 
-// install environment check
-if (process.getuid() !== 0 || process.env["npm_config_global"] !== "true") {
-    console.error("Please re-run like `sudo npm install PACKAGE -g --production --unsafe-perm`.".bgYellow);
-    process.exit(1);
-}
-
 // pm2 install check
 try {
     child_process.execSync("npm list -g pm2");

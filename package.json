@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "main": "dist/index.js",
   "scripts": {
-    "preinstall": "npm run is-build & node install_files/dist/preinstall.js & npm run build",
+    "preinstall": "node install_files/bin/preinstall.js",
+    "install": "npm run is-build & node install_files/dist/install.js & npm run build",
     "postinstall": "node install_files/dist/postinstall.js",
     "preuninstall": "node install_files/dist/preuninstall.js",
     "build": "npm run clean && tsc",
