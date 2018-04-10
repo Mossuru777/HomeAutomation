@@ -6,7 +6,7 @@ import * as semver from "semver";
 try {
     child_process.execSync("npm list -g pm2");
 } catch {
-    console.log("Please install pm2 as global like `sudo npm install -g pm2@2`.".bgYellow);
+    console.log("Please install pm2 as global like `sudo npm install -g pm2@2`.".bgRed);
     process.exit(1);
 }
 
