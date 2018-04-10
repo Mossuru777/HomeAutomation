@@ -18,7 +18,7 @@ try {
     });
 }
 catch (e) {
-    console.log("Caution: `pm2 startup` has failed. you can try fix yourself.".bgYellow);
+    console.log("Caution: `pm2 startup` has failed. you can try fix yourself.".bgYellow.black);
 }
 child_process.execSync("pm2 start pm2_process.json", {
     stdio: [

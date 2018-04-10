@@ -6,7 +6,7 @@ try {
     const testFlight = child_process.execSync("pm2 -v", { encoding: "utf8" });
     console.log(testFlight);
 } catch {
-    console.error("Please install pm2 as global like `sudo npm install -g pm2@2`.".bgRed);
+    console.error("Please install pm2 as global like `sudo npm install -g pm2@2`.".bgRed.white);
     process.exit(1);
 }
 
