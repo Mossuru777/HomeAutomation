@@ -4,14 +4,14 @@
   "main": "dist/index.js",
   "scripts": {
     "preinstall": "node install_files/bin/preinstall.js",
-    "install": "npm run is-build & node install_files/dist/install.js & npm run build",
+    "install": "npm run is-build && node install_files/dist/install.js && npm run build",
     "postinstall": "node install_files/dist/postinstall.js",
     "preuninstall": "node install_files/dist/preuninstall.js",
     "build": "npm run clean && tsc",
     "clean": "del-cli dist",
-    "dev-start": "npm run build & node dist/index.js",
+    "dev-start": "npm run build && node dist/index.js",
     "lint": "tslint --fix --format stylish --project .",
-    "is-build": "npm run is-clean & tsc --project install_files",
+    "is-build": "npm run is-clean && tsc --project install_files",
     "is-clean": "del-cli install_files/dist",
     "is-lint": "tslint --fix --format stylish --project install_files"
   },
