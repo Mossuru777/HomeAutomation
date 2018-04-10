@@ -3,17 +3,12 @@
   "version": "0.0.1",
   "main": "dist/index.js",
   "scripts": {
-    "preinstall": "node install_files/bin/preinstall.js",
-    "install": "postinstall-build install_files/dist --script is-build && node install_files/dist/install.js",
-    "postinstall": "postinstall-build dist --script build && node install_files/dist/postinstall.js",
-    "preuninstall": "node install_files/dist/preuninstall.js",
+    "postinstall": "postinstall-build dist --script build && node dist/installer_files/postinstall.js",
+    "preuninstall": "node dist/installer_files/preuninstall.js",
     "build": "tsc",
     "clean": "del-cli dist",
     "lint": "tslint --fix --format stylish --project .",
-    "is-build": "tsc --project install_files",
-    "is-clean": "del-cli install_files/dist",
-    "is-lint": "tslint --fix --format stylish --project install_files",
-    "dev-start": "node dist/index.js"
+    "dev-start": "npm run lint && npm run build && node dist/index.js"
   },
   "author": "Mossuru777",
   "license": "ISC",
