@@ -56,12 +56,16 @@ export class Server {
         if (config.socket_path) {
             try {
                 fs.unlinkSync(config.socket_path);
+            } catch (e) {
+                if (e.code !== "ENOENT") {
+                    throw e;
+                }
+            }
+            try {
                 this.socket_http_server = http.createServer(this.app).listen(config.socket_path);
                 fs.chmodSync(config.socket_path, 0o777);
             } catch (e) {
-                if (e.code !== "ENOENT") {
-                    console.warn(e.message);
-                }
+                console.warn(e.message);
             }
         }
 
