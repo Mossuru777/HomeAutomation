@@ -2,6 +2,9 @@
   "name": "homeautomation",
   "version": "0.0.1",
   "main": "dist/index.js",
+  "bin": {
+    "homeautomation": "bin/homeautomation.sh"
+  },
   "scripts": {
     "preinstall": "node installer_files/dist/preinstall.js",
     "install": "node installer_files/dist/install.js",
