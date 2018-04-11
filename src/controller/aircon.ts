@@ -28,8 +28,6 @@ function parseGETParameter(req: Request): DaikinIR {
 
     const errors: string[] = [];
 
-    console.log(req.query);
-
     const power = req.query.power ? DaikinIR.Enums.Power.On : DaikinIR.Enums.Power.Off;
 
     const mode = ((): DaikinIR.Enums.Mode => {

@@ -17,7 +17,6 @@ function parseGETParameter(req) {
         [4, { str: "Warm", temp_min: 14, temp_max: 30, temp_default: 25 }]
     ]);
     const errors = [];
-    console.log(req.query);
     const power = req.query.power ? 1 : 0;
     const mode = (() => {
         const mode_str = (req.query.mode || "").toLowerCase();
