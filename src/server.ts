@@ -94,7 +94,7 @@ HTTP Server started.
   
 `,
                 (config.socket_path as string),
-                (config.socket_path as string).replace(/\//g, "%2f")
+                (config.socket_path as string).replace(/\//g, "%2F")
             ).yellow;
         }
         if (this.tcp_http_server) {
