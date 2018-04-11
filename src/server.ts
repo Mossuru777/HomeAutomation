@@ -24,32 +24,38 @@ export class Server {
             throw Error("api.yml can't cast to 'OpenAPI.ApiDefinition'.");
         })();
 
+        // Swagger UI
+        this.app.use("/swagger-ui", express.static("node_modules/swagger-ui-dist"));
+
+        // /v1/docs に来たら、Swagger UIで /v1/schema を表示
+        this.app.get("/v1/docs", (_req, res) => res.redirect("/swagger-ui/?url=/v1/schema"));
+
         // express-openapi 初期化
         openapi.initialize({
             app: this.app,
             apiDoc: apiDefinition,
 
-            // エンドポイント実装ディレクトリー
-            paths: "./dist/api",
-
-            // Content-Type毎ハンドラーの指定
+            // Content-Type毎ハンドラの指定
             consumesMiddleware: {
                 "application/json": bodyParser.json(),
                 "text/text": bodyParser.text()
             },
+
+            // API Schema
+            docsPath: "/schema",
 
             // エラー処理
             errorMiddleware: (err, _req, res, _next) => {
                 res.status(400);
                 res.json(err);
             },
+
             errorTransformer: (openapiError, _jsonschemaError) => {
                 return openapiError.message;
             },
 
-            // exposeApiDocsをtrueにすることでGET /schemaで完全版のスキーマが取得できる
-            docsPath: "/schema",
-            exposeApiDocs: true
+            // エンドポイント実装ディレクトリ
+            paths: "./dist/api"
         });
 
         // プロトコルごとにListenできるか試す
