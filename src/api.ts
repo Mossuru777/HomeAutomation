@@ -7,7 +7,7 @@ export interface ErrorResponse {
 
 export function isErrorResponse(e: any): e is ErrorResponse {
     return e.hasOwnProperty("status") && Number.isInteger(e.status) && e.status >= 100 && e.status <= 500 &&
-            e.hasOwnProperty("messages") && Array.isArray(e.messages);
+        e.hasOwnProperty("messages") && Array.isArray(e.messages);
 }
 
 export function responseSuccessNoContents(res: express.Response): express.Response {

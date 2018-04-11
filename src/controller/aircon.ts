@@ -1,5 +1,5 @@
-import { Request } from "express-openapi";
 import { DaikinIR } from "daikin-ir";
+import { Request } from "express-openapi";
 import { sprintf } from "sprintf-js";
 
 export function controllAirCon(req: Request) {
