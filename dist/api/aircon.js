@@ -22,7 +22,8 @@ exports.get = async (req, res, _next) => {
     }
 };
 exports.get.apiDoc = {
-    description: "エアコンを操作します",
+    summary: "エアコンを操作します",
+    description: "運転内容をセットしてエアコンを操作します",
     operationId: "aircon",
     parameters: [
         {
@@ -84,7 +85,7 @@ exports.get.apiDoc = {
             required: false,
             type: "integer",
             minimum: 1,
-            maximum: 12,
+            maximum: 12
         }
     ],
     responses: {
