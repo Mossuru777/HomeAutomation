@@ -8,8 +8,14 @@ if (process === undefined || require === undefined) {
     throw Error("Node.js environment required.");
 }
 
+// Injection environment variable
+try {
+    require("dotenv").config();
+} catch {}
+
+// Start server
 const server = (() => {
-    const config_path = "/usr/local/homeautomation/config.yml";
+    const config_path = process.env["HOMEAUTOMATION_CONFIG_PATH"] || "/usr/local/etc/homeautomation/config.yml";
 
     const config = yaml.safeLoad(
         fs.readFileSync(config_path, "utf-8")
