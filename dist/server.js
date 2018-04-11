@@ -1,15 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const bodyParser = require("body-parser");
+require("colors");
 const express = require("express");
 const openapi = require("express-openapi");
 const fs = require("fs");
 const http = require("http");
 const yaml = require("js-yaml");
+const sprintf_js_1 = require("sprintf-js");
 class Server {
     constructor(config) {
         this.app = express();
-        this.http_servers = [];
         const apiDefinition = (() => {
             const doc = yaml.safeLoad(fs.readFileSync("api.yml", "utf-8"));
             if (doc !== undefined && doc.hasOwnProperty("swagger") && doc.hasOwnProperty("info")
@@ -38,54 +39,61 @@ class Server {
         });
         if (config.socket_path) {
             try {
-                http.createServer().listen(config.socket_path).close();
-                this.socket_path = config.socket_path;
+                fs.unlinkSync(config.socket_path);
+                this.socket_http_server = http.createServer(this.app).listen(config.socket_path);
+                fs.chmodSync(config.socket_path, 0o777);
             }
             catch (e) {
-                console.warn(e.message);
+                if (e.code !== "ENOENT") {
+                    console.warn(e.message);
+                }
             }
         }
+        const tcp_hostname = config.tcp_hostname || "127.0.0.1";
         if (config.tcp_port) {
             try {
-                http.createServer().listen(config.tcp_port).close();
-                this.tcp_port = config.tcp_port;
+                this.tcp_http_server = http.createServer(this.app).listen(config.tcp_port, tcp_hostname);
             }
             catch (e) {
                 console.warn(e.message);
             }
         }
-        if (this.socket_path === undefined && this.tcp_port === undefined) {
+        if (this.socket_http_server === undefined && this.tcp_http_server === undefined) {
             throw Error("Can't start listening on any protocol. Check your configuration.");
         }
-    }
-    start() {
-        if (this.http_servers.length) {
-            console.warn("Server already started.");
-            return;
+        let listen_info = `
+HTTP Server started.
+`;
+        listen_info += "*** Listen ***\n".yellow;
+        if (this.socket_http_server) {
+            listen_info += sprintf_js_1.sprintf(`\
+[Unix Domain Socket]
+  - %s
+  - http+unix://%s
+  
+`, config.socket_path, config.socket_path.replace(/\//g, "%2f")).yellow;
         }
-        if (this.socket_path) {
-            try {
-                const server = http.createServer(this.app).listen(this.socket_path);
-                this.http_servers.push(server);
-            }
-            catch (e) {
-                console.warn(e.message);
-            }
+        if (this.tcp_http_server) {
+            listen_info += sprintf_js_1.sprintf(`\
+[TCP]
+  - http://%s:%d/
+
+`, tcp_hostname, config.tcp_port).yellow;
         }
-        if (this.tcp_port) {
-            try {
-                const server = http.createServer(this.app).listen(this.tcp_port);
-                this.http_servers.push(server);
-            }
-            catch (e) {
-                console.warn(e.message);
-            }
-        }
+        console.info(listen_info);
     }
     stop() {
-        let server;
-        while (server = this.http_servers.pop()) {
-            server.close();
+        let any_close = false;
+        if (this.socket_http_server) {
+            this.socket_http_server.close();
+            any_close = true;
+        }
+        if (this.tcp_http_server) {
+            this.tcp_http_server.close();
+            any_close = true;
+        }
+        if (any_close) {
+            console.info("\n\nHTTP Server stopped.");
         }
     }
 }
