@@ -13,8 +13,8 @@
     "build:installer_files": "tsc --project installer_files",
     "clean:installer_files": "del-cli installer_files/dist",
     "lint:installer_files": "tslint --fix --format stylish --project installer_files",
-    "prepare": "npm-run-all -p clean:* lint:* -p build:*",
-    "dev-start": "npm-run-all -p clean:main lint:main -s build:main && node dist/index.js"
+    "prepare": "npm-run-all -s clean:* lint:* build:*",
+    "dev-start": "npm-run-all -s clean:main lint:main build:main && node dist/index.js"
   },
   "author": "Mossuru777",
   "license": "ISC",
