@@ -5,6 +5,7 @@ const fs = require("fs");
 const ps = require("ps-node");
 const sprintf_js_1 = require("sprintf-js");
 const config_store_1 = require("../store/config_store");
+const child_prcess = require("child_process");
 function controllAirCon(req) {
     const command = parseDaikinIRRequest(req);
     fs.writeFileSync(config_store_1.ConfigStore.config.daikin_lirc_path, command.getLIRCConfig(), { encoding: "utf-8", mode: 0o666, flag: "w" });
@@ -16,6 +17,12 @@ function controllAirCon(req) {
             process.kill(result[i].pid, "SIGHUP");
         }
     });
+    try {
+        child_prcess.execSync("irsend SEND_ONCE AirCon Control");
+    }
+    catch (e) {
+        throw new Error("IR send command failed. Please check the server.");
+    }
 }
 exports.controllAirCon = controllAirCon;
 function parseDaikinIRRequest(req) {

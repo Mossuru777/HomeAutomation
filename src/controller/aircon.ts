@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as ps from "ps-node";
 import { sprintf } from "sprintf-js";
 import { ConfigStore } from "../store/config_store";
+import * as child_prcess from "child_process";
 
 export function controllAirCon(req: Request) {
     // Parse request
@@ -25,6 +26,13 @@ export function controllAirCon(req: Request) {
             process.kill(result[i].pid, "SIGHUP");
         }
     });
+
+    // Send signal
+    try {
+        child_prcess.execSync("irsend SEND_ONCE AirCon Control");
+    } catch (e) {
+        throw new Error("IR send command failed. Please check the server.");
+    }
 }
 
 function parseDaikinIRRequest(req: Request): DaikinIR {
