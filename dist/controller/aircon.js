@@ -3,13 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const daikin_ir_1 = require("daikin-ir");
 const sprintf_js_1 = require("sprintf-js");
 function controllAirCon(req) {
-    if (req.params === undefined) {
-        throw Error("parameters are required.");
-    }
-    parseGETParameter(req);
+    parseDaikinIRRequest(req);
 }
 exports.controllAirCon = controllAirCon;
-function parseGETParameter(req) {
+function parseDaikinIRRequest(req) {
     const ModeMiscs = new Map([
         [0, { str: "Auto", temp_min: -5, temp_max: 5, temp_default: 0 }],
         [2, { str: "Dry", temp_min: -2, temp_max: 2, temp_default: 0 }],

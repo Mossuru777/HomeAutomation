@@ -3,15 +3,10 @@ import { Request } from "express-openapi";
 import { sprintf } from "sprintf-js";
 
 export function controllAirCon(req: Request) {
-    if (req.params === undefined) {
-        throw Error("parameters are required.");
-    }
-
-    parseGETParameter(req);
-    // TODO LIRCの操作実装
+    parseDaikinIRRequest(req);
 }
 
-function parseGETParameter(req: Request): DaikinIR {
+function parseDaikinIRRequest(req: Request): DaikinIR {
     interface ModeMisc {
         str: string;
         temp_min: number;
