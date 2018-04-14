@@ -1,9 +1,7 @@
 import "colors";
-import * as fs from "fs";
-import * as yaml from "js-yaml";
 import * as os from "os";
-import { isConfig } from "./model/config";
 import { Server } from "./server";
+import { ConfigStore } from "./store/config_store";
 
 if (process === undefined || require === undefined) {
     console.error("Node.js environment required.".bgRed.white);
@@ -19,17 +17,7 @@ try {
 // Start server
 let server: Server;
 try {
-    server = (() => {
-        const config_path = process.env["HOMEAUTOMATION_CONFIG_PATH"] || "/usr/local/etc/homeautomation/config.yml";
-        const config = yaml.safeLoad(
-            fs.readFileSync(config_path, "utf-8")
-        );
-
-        if (isConfig(config)) {
-            return new Server(config);
-        }
-        throw Error("invalid config: " + config_path);
-    })();
+    server = new Server(ConfigStore.config);
 } catch (e) {
     console.error(e.message.red);
     process.exit(1);

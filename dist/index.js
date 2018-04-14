@@ -1,11 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("colors");
-const fs = require("fs");
-const yaml = require("js-yaml");
 const os = require("os");
-const config_1 = require("./model/config");
 const server_1 = require("./server");
+const config_store_1 = require("./store/config_store");
 if (process === undefined || require === undefined) {
     console.error("Node.js environment required.".bgRed.white);
     process.exit(1);
@@ -17,14 +15,7 @@ catch (_a) {
 }
 let server;
 try {
-    server = (() => {
-        const config_path = process.env["HOMEAUTOMATION_CONFIG_PATH"] || "/usr/local/etc/homeautomation/config.yml";
-        const config = yaml.safeLoad(fs.readFileSync(config_path, "utf-8"));
-        if (config_1.isConfig(config)) {
-            return new server_1.Server(config);
-        }
-        throw Error("invalid config: " + config_path);
-    })();
+    server = new server_1.Server(config_store_1.ConfigStore.config);
 }
 catch (e) {
     console.error(e.message.red);
