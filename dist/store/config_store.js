@@ -10,7 +10,9 @@ class ConfigStore {
         if (config_1.isConfig(config)) {
             this.config = config;
         }
-        throw Error("invalid config: " + config_path);
+        else {
+            throw Error("invalid config: " + config_path);
+        }
     }
     static get config() {
         if (!this._instance) {

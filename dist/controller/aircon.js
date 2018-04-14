@@ -1,9 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const daikin_ir_1 = require("daikin-ir");
+const fs = require("fs");
+const os = require("os");
+const ps = require("ps-node");
 const sprintf_js_1 = require("sprintf-js");
+const config_store_1 = require("../store/config_store");
 function controllAirCon(req) {
-    parseDaikinIRRequest(req);
+    const command = parseDaikinIRRequest(req);
+    fs.writeFileSync(config_store_1.ConfigStore.config.daikin_lirc_path, command.getLIRCConfig(), "w");
+    ps.lookup({ command: "lircd" }, (err, result) => {
+        if (err) {
+            throw new Error(err);
+        }
+        for (let i = 0; i < result.length; i += 1) {
+            process.kill(result[i].pid, os.constants.signals.SIGHUP);
+        }
+    });
 }
 exports.controllAirCon = controllAirCon;
 function parseDaikinIRRequest(req) {
