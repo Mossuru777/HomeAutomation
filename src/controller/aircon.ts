@@ -1,7 +1,6 @@
 import { DaikinIR } from "daikin-ir";
 import { Request } from "express-openapi";
 import * as fs from "fs";
-import * as os from "os";
 import * as ps from "ps-node";
 import { sprintf } from "sprintf-js";
 import { ConfigStore } from "../store/config_store";
@@ -23,7 +22,7 @@ export function controllAirCon(req: Request) {
             throw new Error(err);
         }
         for (let i = 0; i < result.length; i += 1) {
-            process.kill(result[i].pid, os.constants.signals.SIGHUP);
+            process.kill(result[i].pid, "SIGHUP");
         }
     });
 }
