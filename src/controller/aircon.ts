@@ -11,7 +11,11 @@ export function controllAirCon(req: Request) {
     const command = parseDaikinIRRequest(req);
 
     // Write LIRC configuration file
-    fs.writeFileSync(ConfigStore.config.daikin_lirc_path, command.getLIRCConfig(), "w");
+    fs.writeFileSync(
+        ConfigStore.config.daikin_lirc_path,
+        command.getLIRCConfig(),
+        { encoding: "utf-8", mode: 0o666, flag: "w" }
+    );
 
     // Reload the LIRC configuration file
     ps.lookup({ command: "lircd" }, (err: string | null, result: any[]) => {

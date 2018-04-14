@@ -8,7 +8,7 @@ const sprintf_js_1 = require("sprintf-js");
 const config_store_1 = require("../store/config_store");
 function controllAirCon(req) {
     const command = parseDaikinIRRequest(req);
-    fs.writeFileSync(config_store_1.ConfigStore.config.daikin_lirc_path, command.getLIRCConfig(), "w");
+    fs.writeFileSync(config_store_1.ConfigStore.config.daikin_lirc_path, command.getLIRCConfig(), { encoding: "utf-8", mode: 0o666, flag: "w" });
     ps.lookup({ command: "lircd" }, (err, result) => {
         if (err) {
             throw new Error(err);
