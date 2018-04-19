@@ -8,7 +8,7 @@ import { sprintf } from "sprintf-js";
 import { ErrorResponse } from "../model/error_response";
 import { ConfigStore } from "../store/config_store";
 
-export function controllAirCon(req: Request) {
+export async function controllAirCon(req: Request) {
     // Parse request
     const command = parseDaikinIRRequest(req);
 
@@ -24,18 +24,26 @@ export function controllAirCon(req: Request) {
     }
 
     // Reload the LIRC configuration file
-    ps.lookup({ command: "lircd" }, (err: string | null, result: any[]) => {
-        if (err) {
-            throw new ErrorResponse(500, [err]);
-        }
-        if (result.length > 0) {
-            for (let i = 0; i < result.length; i += 1) {
-                process.kill(result[i].pid, "SIGHUP");
-            }
-        } else {
-            throw new ErrorResponse(500, ["LIRC daemon does not seem to be running. Please check the server."]);
-        }
-    });
+    await (() => {
+        // treat ps.lookup as complete async function
+        // ref: https://github.com/neekey/ps/issues/19#issuecomment-254037626
+        return new Promise((resolve, reject) => {
+            ps.lookup({ command: "lircd" }, (err: string | null, result: any[]) => {
+                if (err) {
+                    reject(new ErrorResponse(500, [err]));
+                } else if (result.length === 0) {
+                    reject(new ErrorResponse(
+                        500,
+                        ["LIRC daemon does not seem to be running. Please check the server."]
+                    ));
+                }
+                for (let i = 0; i < result.length; i += 1) {
+                    process.kill(result[i].pid, "SIGHUP");
+                }
+                resolve();
+            });
+        });
+    })().catch((e) => { throw e; });
 
     // Send signal
     try {

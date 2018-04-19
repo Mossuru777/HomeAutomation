@@ -4,7 +4,7 @@ import { controllAirCon } from "../controller/aircon";
 // GET /aircon
 export const get: Operation = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        controllAirCon(req);
+        await controllAirCon(req);
         res.status(204);
         res.end();
     } catch (e) {

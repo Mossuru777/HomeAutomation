@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const aircon_1 = require("../controller/aircon");
 exports.get = async (req, res, next) => {
     try {
-        aircon_1.controllAirCon(req);
+        await aircon_1.controllAirCon(req);
         res.status(204);
         res.end();
     }

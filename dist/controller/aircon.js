@@ -8,7 +8,7 @@ const ps = require("ps-node");
 const sprintf_js_1 = require("sprintf-js");
 const error_response_1 = require("../model/error_response");
 const config_store_1 = require("../store/config_store");
-function controllAirCon(req) {
+async function controllAirCon(req) {
     const command = parseDaikinIRRequest(req);
     try {
         fs.writeFileSync(config_store_1.ConfigStore.config.daikin_lirc_path, command.getLIRCConfig(), { encoding: "utf-8", mode: 0o666, flag: "w" });
@@ -16,19 +16,22 @@ function controllAirCon(req) {
     catch (e) {
         throw new error_response_1.ErrorResponse(500, ["LIRC configuration file write failed."], e);
     }
-    ps.lookup({ command: "lircd" }, (err, result) => {
-        if (err) {
-            throw new error_response_1.ErrorResponse(500, [err]);
-        }
-        if (result.length > 0) {
-            for (let i = 0; i < result.length; i += 1) {
-                process.kill(result[i].pid, "SIGHUP");
-            }
-        }
-        else {
-            throw new error_response_1.ErrorResponse(500, ["LIRC daemon does not seem to be running. Please check the server."]);
-        }
-    });
+    await (() => {
+        return new Promise((resolve, reject) => {
+            ps.lookup({ command: "lircd" }, (err, result) => {
+                if (err) {
+                    reject(new error_response_1.ErrorResponse(500, [err]));
+                }
+                else if (result.length === 0) {
+                    reject(new error_response_1.ErrorResponse(500, ["LIRC daemon does not seem to be running. Please check the server."]));
+                }
+                for (let i = 0; i < result.length; i += 1) {
+                    process.kill(result[i].pid, "SIGHUP");
+                }
+                resolve();
+            });
+        });
+    })().catch((e) => { throw e; });
     try {
         child_prcess.execSync("irsend SEND_ONCE AirCon Control");
     }
