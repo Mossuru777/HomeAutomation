@@ -25,10 +25,10 @@ export class Server {
         })();
 
         // Swagger UI
-        this.app.use("/swagger-ui", express.static("node_modules/swagger-ui-dist"));
+        this.app.use("/api/swagger-ui", express.static("node_modules/swagger-ui-dist"));
 
-        // /v1/docs に来たら、Swagger UIで /v1/schema を表示
-        this.app.get("/v1/docs", (_req, res) => res.redirect("/swagger-ui/?url=/v1/schema"));
+        // /api/v1/docs に来たら、Swagger UIで /api/v1/schema を表示
+        this.app.get("/api/v1/docs", (_req, res) => res.redirect("/api/swagger-ui/?url=/api/v1/schema"));
 
         // express-openapi 初期化
         openapi.initialize({

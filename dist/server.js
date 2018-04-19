@@ -19,8 +19,8 @@ class Server {
             }
             throw Error("api.yml can't cast to 'OpenAPI.ApiDefinition'.");
         })();
-        this.app.use("/swagger-ui", express.static("node_modules/swagger-ui-dist"));
-        this.app.get("/v1/docs", (_req, res) => res.redirect("/swagger-ui/?url=/v1/schema"));
+        this.app.use("/api/swagger-ui", express.static("node_modules/swagger-ui-dist"));
+        this.app.get("/api/v1/docs", (_req, res) => res.redirect("/api/swagger-ui/?url=/api/v1/schema"));
         openapi.initialize({
             app: this.app,
             apiDoc: apiDefinition,
