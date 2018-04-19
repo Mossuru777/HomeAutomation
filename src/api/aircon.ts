@@ -1,22 +1,14 @@
 import { NextFunction, Operation, Request, Response } from "express-openapi";
-import { ErrorResponse, isErrorResponse, responseError, responseSuccessNoContents } from "../api";
 import { controllAirCon } from "../controller/aircon";
 
 // GET /aircon
-export const get: Operation = async (req: Request, res: Response, _next: NextFunction) => {
+export const get: Operation = async (req: Request, res: Response, next: NextFunction) => {
     try {
         controllAirCon(req);
-        responseSuccessNoContents(res);
+        res.status(204);
+        res.end();
     } catch (e) {
-        if (e instanceof Error) {
-            const error: ErrorResponse = { status: 400, messages: [e.message] };
-            responseError(res, error);
-        } else if (isErrorResponse(e)) {
-            responseError(res, e);
-        } else {
-            const error: ErrorResponse = { status: 400, messages: ["Unknown error occurred."] };
-            responseError(res, error);
-        }
+        next(e);
     }
 };
 

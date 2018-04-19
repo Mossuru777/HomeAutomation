@@ -2,11 +2,14 @@ import * as bodyParser from "body-parser";
 import "colors";
 import * as express from "express";
 import * as openapi from "express-openapi";
+import { NextFunction, Request, Response } from "express-serve-static-core";
 import * as fs from "fs";
 import * as http from "http";
 import * as yaml from "js-yaml";
+import { isError } from "lodash";
 import { sprintf } from "sprintf-js";
 import { Config } from "./model/config";
+import { ErrorResponse } from "./model/error_response";
 
 export class Server {
     private readonly app = express();
@@ -45,9 +48,22 @@ export class Server {
             docsPath: "/schema",
 
             // エラー処理
-            errorMiddleware: (err, _req, res, _next) => {
-                res.status(400);
-                res.json(err);
+            errorMiddleware: (e: any, _req: Request, res: Response, _next: NextFunction): Response => {
+                const error_response: ErrorResponse = (() => {
+                    if (e instanceof ErrorResponse) {
+                        return e;
+                    }
+                    if (isError(e)) {
+                        return new ErrorResponse(500, [e.name, e.message]);
+                    }
+                    return new ErrorResponse(500, ["Unknown error occurred."]);
+                })();
+
+                res.status(error_response.status);
+                res.json(error_response);
+                res.end();
+
+                return res;
             },
 
             errorTransformer: (openapiError, _jsonschemaError) => {

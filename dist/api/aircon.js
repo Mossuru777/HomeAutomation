@@ -1,24 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const api_1 = require("../api");
 const aircon_1 = require("../controller/aircon");
-exports.get = async (req, res, _next) => {
+exports.get = async (req, res, next) => {
     try {
         aircon_1.controllAirCon(req);
-        api_1.responseSuccessNoContents(res);
+        res.status(204);
+        res.end();
     }
     catch (e) {
-        if (e instanceof Error) {
-            const error = { status: 400, messages: [e.message] };
-            api_1.responseError(res, error);
-        }
-        else if (api_1.isErrorResponse(e)) {
-            api_1.responseError(res, e);
-        }
-        else {
-            const error = { status: 400, messages: ["Unknown error occurred."] };
-            api_1.responseError(res, error);
-        }
+        next(e);
     }
 };
 exports.get.apiDoc = {

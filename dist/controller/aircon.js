@@ -1,27 +1,43 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const child_prcess = require("child_process");
 const daikin_ir_1 = require("daikin-ir");
 const fs = require("fs");
+const lodash_1 = require("lodash");
 const ps = require("ps-node");
 const sprintf_js_1 = require("sprintf-js");
+const error_response_1 = require("../model/error_response");
 const config_store_1 = require("../store/config_store");
-const child_prcess = require("child_process");
 function controllAirCon(req) {
     const command = parseDaikinIRRequest(req);
-    fs.writeFileSync(config_store_1.ConfigStore.config.daikin_lirc_path, command.getLIRCConfig(), { encoding: "utf-8", mode: 0o666, flag: "w" });
+    try {
+        fs.writeFileSync(config_store_1.ConfigStore.config.daikin_lirc_path, command.getLIRCConfig(), { encoding: "utf-8", mode: 0o666, flag: "w" });
+    }
+    catch (e) {
+        throw new error_response_1.ErrorResponse(500, ["LIRC configuration file write failed."], e);
+    }
     ps.lookup({ command: "lircd" }, (err, result) => {
         if (err) {
-            throw new Error(err);
+            throw new error_response_1.ErrorResponse(500, [err]);
         }
-        for (let i = 0; i < result.length; i += 1) {
-            process.kill(result[i].pid, "SIGHUP");
+        if (result.length > 0) {
+            for (let i = 0; i < result.length; i += 1) {
+                process.kill(result[i].pid, "SIGHUP");
+            }
+        }
+        else {
+            throw new error_response_1.ErrorResponse(500, ["LIRC daemon does not seem to be running. Please check the server."]);
         }
     });
     try {
         child_prcess.execSync("irsend SEND_ONCE AirCon Control");
     }
     catch (e) {
-        throw new Error("IR send command failed. Please check the server.");
+        const messages = ["IR send command failed. Please check the server."];
+        if (lodash_1.isError(e)) {
+            throw new error_response_1.ErrorResponse(500, messages, e);
+        }
+        throw new error_response_1.ErrorResponse(500, messages);
     }
 }
 exports.controllAirCon = controllAirCon;
@@ -125,7 +141,7 @@ function parseDaikinIRRequest(req) {
         return req.query.hour;
     })();
     if (errors.length > 0) {
-        throw { status: 400, messages: errors };
+        throw new error_response_1.ErrorResponse(400, errors);
     }
     return new daikin_ir_1.DaikinIR(power, mode, temperature, fan_speed, swing, powerful, timer_mode, hour);
 }

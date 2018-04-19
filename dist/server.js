@@ -7,7 +7,9 @@ const openapi = require("express-openapi");
 const fs = require("fs");
 const http = require("http");
 const yaml = require("js-yaml");
+const lodash_1 = require("lodash");
 const sprintf_js_1 = require("sprintf-js");
+const error_response_1 = require("./model/error_response");
 class Server {
     constructor(config) {
         this.app = express();
@@ -29,9 +31,20 @@ class Server {
                 "text/text": bodyParser.text()
             },
             docsPath: "/schema",
-            errorMiddleware: (err, _req, res, _next) => {
-                res.status(400);
-                res.json(err);
+            errorMiddleware: (e, _req, res, _next) => {
+                const error_response = (() => {
+                    if (e instanceof error_response_1.ErrorResponse) {
+                        return e;
+                    }
+                    if (lodash_1.isError(e)) {
+                        return new error_response_1.ErrorResponse(500, [e.name, e.message]);
+                    }
+                    return new error_response_1.ErrorResponse(500, ["Unknown error occurred."]);
+                })();
+                res.status(error_response.status);
+                res.json(error_response);
+                res.end();
+                return res;
             },
             errorTransformer: (openapiError, _jsonschemaError) => {
                 return openapiError.message;
