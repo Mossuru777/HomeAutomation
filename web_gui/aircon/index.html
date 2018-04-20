@@ -20,7 +20,12 @@
     <div class="container">
         <a class="btn btn-outline-secondary" href="../" role="button"><i class="fas fa-home"></i></a>
         <span><i class="fas fa-leaf"></i> エアコン</span>
-        <button type="submit" class="btn btn-outline-primary" id="submitBtn"><i class="fas fa-wifi"></i> 送信</button>
+        <button type="submit" class="btn btn-outline-primary" id="submitBtn">
+            <span class="on-submit-hide on-success-hide on-error-hide"><i class="fas fa-wifi"></i> 送信</span>
+            <span class="on-default-hide on-success-hide on-error-hide"><i class="fas fa-circle-notch fa-spin"></i> 処理中</span>
+            <span class="on-default-hide on-submit-hide on-error-hide"><i class="fas fa-check-circle"></i> 成功</span>
+            <span class="on-default-hide on-submit-hide on-success-hide"><i class="fas fa-exclamation-circle"></i> エラー</span>
+        </button>
     </div>
 </nav>
 
@@ -182,6 +187,8 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
         integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>

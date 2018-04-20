@@ -122,8 +122,34 @@ $(() => {
 
     // submit event
     submitBtn.on("click", (event) => {
+        const defaultClass = "btn-outline-primary";
+        const submitClass = "btn-primary";
+        const successClass = "btn-success";
+        const errorClass = "btn-danger";
+
+        const animateDuration = 100;
+        const showResult = (statusClass) => {
+            submitBtn.switchClass(submitClass, statusClass, {
+                children: true,
+                complete: () => {
+                    setTimeout(() => {
+                        submitBtn.switchClass(statusClass, defaultClass, {
+                            children: true,
+                            complete: () => {
+                                submitBtn.prop("disabled", false);
+                            }
+                        });
+                    }, 5000);
+                },
+                duration: animateDuration
+            });
+        };
+
         if (form[0].checkValidity()) {
-            submitBtn.prop("disabled", true);
+            submitBtn.prop("disabled", true).switchClass(defaultClass, submitClass, {
+                children: true,
+                duration: animateDuration
+            });
 
             const query = form.serialize();
             jQuery.getJSON("/api/v1/aircon?" + query)
@@ -131,16 +157,16 @@ $(() => {
                     if (data !== undefined) {
                         console.info(data);
                     }
+                    showResult(successClass);
                 })
                 .fail((jqXHR) => {
                     console.error(jqXHR.responseJSON);
-                })
-                .always(() => {
-                    submitBtn.prop("disabled", false);
+                    showResult(errorClass);
                 });
         } else {
             form[0].reportValidity();
         }
+
         event.preventDefault();
     });
 });
