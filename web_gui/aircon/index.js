@@ -1,4 +1,6 @@
 $(() => {
+    const submitBtn = $("#submitBtn");
+    const form = $("#form");
     const powerSelect = $("input[name='power']:radio");
     const modeSelectInput = $("input[name='mode']:radio");
     const modeSelectLabel = modeSelectInput.parent();
@@ -116,4 +118,19 @@ $(() => {
     });
     timerHourUpBtn.on("click", () => timerHour[0].stepUp());
     timerHourDownBtn.on("click", () => timerHour[0].stepDown());
+
+    // submit event
+    submitBtn.on("click", (event) => {
+        const query = form.serialize();
+        jQuery.getJSON("/api/v1/aircon?" + query)
+            .done((data) => {
+                if (data !== undefined) {
+                    console.info(data);
+                }
+            })
+            .fail((jqXHR) => {
+                console.error(jqXHR.responseJSON);
+            });
+        event.preventDefault();
+    });
 });
