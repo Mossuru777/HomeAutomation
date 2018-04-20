@@ -1,4 +1,4 @@
-import * as bodyParser from "body-parser";
+import * as body_parser from "body-parser";
 import "colors";
 import * as express from "express";
 import * as openapi from "express-openapi";
@@ -40,8 +40,8 @@ export class Server {
 
             // Content-Type毎ハンドラの指定
             consumesMiddleware: {
-                "application/json": bodyParser.json(),
-                "text/text": bodyParser.text()
+                "application/json": body_parser.json(),
+                "text/text": body_parser.text()
             },
 
             // API Schema

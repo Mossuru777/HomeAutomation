@@ -1,4 +1,4 @@
-import * as child_prcess from "child_process";
+import * as child_process from "child_process";
 import { DaikinIR } from "daikin-ir";
 import { Request } from "express-openapi";
 import * as fs from "fs";
@@ -49,7 +49,7 @@ export async function controllAirCon(req: Request) {
 
     // Send signal
     try {
-        child_prcess.execSync("irsend SEND_ONCE AirCon Control", { stdio: "ignore" });
+        child_process.execSync("irsend SEND_ONCE AirCon Control", { stdio: "ignore" });
     } catch (e) {
         const messages = ["LIRC IR send command failed. Please check the server."];
         if (isError(e)) {

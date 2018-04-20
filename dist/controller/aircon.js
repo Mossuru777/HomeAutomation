@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const child_prcess = require("child_process");
+const child_process = require("child_process");
 const daikin_ir_1 = require("daikin-ir");
 const fs = require("fs");
 const lodash_1 = require("lodash");
@@ -35,7 +35,7 @@ async function controllAirCon(req) {
         throw e;
     });
     try {
-        child_prcess.execSync("irsend SEND_ONCE AirCon Control", { stdio: "ignore" });
+        child_process.execSync("irsend SEND_ONCE AirCon Control", { stdio: "ignore" });
     }
     catch (e) {
         const messages = ["LIRC IR send command failed. Please check the server."];

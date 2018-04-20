@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const bodyParser = require("body-parser");
+const body_parser = require("body-parser");
 require("colors");
 const express = require("express");
 const openapi = require("express-openapi");
@@ -27,8 +27,8 @@ class Server {
             app: this.app,
             apiDoc: apiDefinition,
             consumesMiddleware: {
-                "application/json": bodyParser.json(),
-                "text/text": bodyParser.text()
+                "application/json": body_parser.json(),
+                "text/text": body_parser.text()
             },
             docsPath: "/schema",
             errorMiddleware: (e, _req, res, _next) => {
