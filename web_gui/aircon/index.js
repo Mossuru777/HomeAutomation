@@ -1,6 +1,6 @@
 $(() => {
-    const powerSelect = $("input[name='powerSelect']:radio");
-    const modeSelectInput = $("input[name='modeSelect']:radio");
+    const powerSelect = $("input[name='power']:radio");
+    const modeSelectInput = $("input[name='mode']:radio");
     const modeSelectLabel = modeSelectInput.parent();
     const targetTempOffsetLabel = $("#targetTempOffsetLabel");
     const targetTemp = $("#targetTemp");
@@ -9,13 +9,13 @@ $(() => {
     const targetTempHelpBlock = $("#targetTempHelpBlock");
     const targetTempMinLabel = $("#targetTempMinLabel");
     const targetTempMaxLabel = $("#targetTempMaxLabel");
-    const powerfulSelectInput = $("input[name='powerfulSelect']:radio");
+    const powerfulSelectInput = $("input[name='powerful']:radio");
     const powerfulSelectLabel = powerfulSelectInput.parent();
-    const fanSpeedSelectInput = $("input[name='fanSpeedSelect']:radio");
+    const fanSpeedSelectInput = $("input[name='fan']:radio");
     const fanSpeedSelectLabel = fanSpeedSelectInput.parent();
-    const swingSelectInput = $("input[name='swingSelect']:radio");
+    const swingSelectInput = $("input[name='swing']:radio");
     const swingSelectLabel = swingSelectInput.parent();
-    const timerModeSelect = $("input[name='timerModeSelect']:radio");
+    const timerModeSelect = $("input[name='timer']:radio");
     const timerHour = $("#timerHour");
     const timerHourUpBtn = $("#timerHourUpBtn");
     const timerHourDownBtn = $("#timerHourDownBtn");

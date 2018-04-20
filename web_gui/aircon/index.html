@@ -32,10 +32,10 @@
             <div class="container">
                 <div class="btn-group btn-group-toggle d-flex flex-wrap" id="powerSelect" data-toggle="buttons" role="group" aria-label="運転状態の選択">
                     <label class="btn btn-outline-success btn-lg flex-fill">
-                        <input type="radio" name="powerSelect" autocomplete="off" value="true"><i class="fas fa-play"></i> ON
+                        <input type="radio" name="power" autocomplete="off" value="true"><i class="fas fa-play"></i> ON
                     </label>
                     <label class="btn btn-outline-danger btn-lg flex-fill">
-                        <input type="radio" name="powerSelect" autocomplete="off" value="false"><i class="fas fa-stop"></i> OFF
+                        <input type="radio" name="power" autocomplete="off" value="false"><i class="fas fa-stop"></i> OFF
                     </label>
                 </div>
             </div>
@@ -47,19 +47,19 @@
             <div class="container">
                 <div class="btn-group btn-group-toggle d-flex flex-wrap" id="modeSelect" data-toggle="buttons" role="group" aria-label="運転モードの選択">
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="modeSelect" autocomplete="off" value="auto"><i class="fas fa-search"></i> 自動
+                        <input type="radio" name="mode" autocomplete="off" value="auto"><i class="fas fa-search"></i> 自動
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="modeSelect" autocomplete="off" value="warm"><i class="fas fa-fire"></i> 暖房
+                        <input type="radio" name="mode" autocomplete="off" value="warm"><i class="fas fa-fire"></i> 暖房
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="modeSelect" autocomplete="off" value="cold"><i class="far fa-snowflake"></i> 冷房
+                        <input type="radio" name="mode" autocomplete="off" value="cold"><i class="far fa-snowflake"></i> 冷房
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="modeSelect" autocomplete="off" value="dry"><i class="fas fa-umbrella"></i> ドライ
+                        <input type="radio" name="mode" autocomplete="off" value="dry"><i class="fas fa-umbrella"></i> ドライ
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="modeSelect" autocomplete="off" value="fan"><i class="fas fa-sync"></i> 送風
+                        <input type="radio" name="mode" autocomplete="off" value="fan"><i class="fas fa-sync"></i> 送風
                     </label>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <label for="targetTemp"><i class="fas fa-thermometer-half"></i> 目標温度<span id="targetTempOffsetLabel"> (標準温度とのオフセット)</span></label>
             <div class="container">
                 <div class="input-group">
-                    <input type="number" class="form-control" id="targetTemp" name="targetTemp" min=0 max=0 step=1 aria-describedby="tempHelpBlock" autocomplete="off" disabled>
+                    <input type="number" class="form-control" id="targetTemp" name="temp" min=0 max=0 step=1 aria-describedby="tempHelpBlock" autocomplete="off" disabled>
                     <div class="input-group-append">
                         <span class="input-group-text font-weight-bold" id="targetTempUnitLabel">℃</span>
                     </div>
@@ -91,10 +91,10 @@
             <div class="container">
                 <div class="btn-group btn-group-toggle d-flex flex-wrap" id="powerfulSelect" data-toggle="buttons" role="group" aria-label="パワフルモードの選択">
                     <label class="btn btn-outline-warning btn-lg flex-fill disabled">
-                        <input type="radio" name="powerfulSelect" autocomplete="off" value="true"><i class="fas fa-level-up-alt"></i> ON
+                        <input type="radio" name="powerful" autocomplete="off" value="true"><i class="fas fa-level-up-alt"></i> ON
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill active disabled">
-                        <input type="radio" name="powerfulSelect" autocomplete="off" value="false" checked><i class="fas fa-long-arrow-alt-right"></i> OFF
+                        <input type="radio" name="powerful" autocomplete="off" value="false" checked><i class="fas fa-long-arrow-alt-right"></i> OFF
                     </label>
                 </div>
             </div>
@@ -106,25 +106,25 @@
             <div class="container">
                 <div class="btn-group btn-group-toggle d-flex flex-wrap" id="fanSpeedSelect" data-toggle="buttons" role="group" aria-label="風量の選択">
                     <label class="btn btn-outline-primary btn-lg flex-fill active disabled">
-                        <input type="radio" name="fanSpeedSelect" autocomplete="off" value="auto" checked><i class="fas fa-chart-bar"></i> 自動
+                        <input type="radio" name="fan" autocomplete="off" value="auto" checked><i class="fas fa-chart-bar"></i> 自動
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="fanSpeedSelect" autocomplete="off" value="silent"><i class="far fa-moon"></i> しずか
+                        <input type="radio" name="fan" autocomplete="off" value="silent"><i class="far fa-moon"></i> しずか
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="fanSpeedSelect" autocomplete="off" value="1"><i class="wi wi-strong-wind"></i> 1 / 5
+                        <input type="radio" name="fan" autocomplete="off" value="1"><i class="wi wi-strong-wind"></i> 1 / 5
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="fanSpeedSelect" autocomplete="off" value="2"><i class="wi wi-strong-wind"></i> 2 / 5
+                        <input type="radio" name="fan" autocomplete="off" value="2"><i class="wi wi-strong-wind"></i> 2 / 5
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="fanSpeedSelect" autocomplete="off" value="3"><i class="wi wi-strong-wind"></i> 3 / 5
+                        <input type="radio" name="fan" autocomplete="off" value="3"><i class="wi wi-strong-wind"></i> 3 / 5
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="fanSpeedSelect" autocomplete="off" value="4"><i class="wi wi-strong-wind"></i> 4 / 5
+                        <input type="radio" name="fan" autocomplete="off" value="4"><i class="wi wi-strong-wind"></i> 4 / 5
                     </label>
                     <label class="btn btn-outline-primary btn-lg flex-fill disabled">
-                        <input type="radio" name="fanSpeedSelect" autocomplete="off" value="5"><i class="wi wi-strong-wind"></i> 5 / 5
+                        <input type="radio" name="fan" autocomplete="off" value="5"><i class="wi wi-strong-wind"></i> 5 / 5
                     </label>
                 </div>
             </div>
@@ -136,10 +136,10 @@
             <div class="container">
                 <div class="btn-group btn-group-toggle d-flex flex-wrap" id="swingSelect" data-toggle="buttons" role="group" aria-label="スイングの選択">
                     <label class="btn btn-outline-primary btn-lg flex-fill active disabled">
-                        <input type="radio" name="swingSelect" autocomplete="off" value="true" checked><i class="fas fa-sort"></i> ON
+                        <input type="radio" name="swing" autocomplete="off" value="true" checked><i class="fas fa-sort"></i> ON
                     </label>
                     <label class="btn btn-outline-secondary btn-lg flex-fill disabled">
-                        <input type="radio" name="swingSelect" autocomplete="off" value="false"><i class="fas fa-long-arrow-alt-right"></i> OFF
+                        <input type="radio" name="swing" autocomplete="off" value="false"><i class="fas fa-long-arrow-alt-right"></i> OFF
                     </label>
                 </div>
             </div>
@@ -151,18 +151,18 @@
             <div class="container">
                 <div class="btn-group btn-group-toggle d-flex flex-wrap" id="timerModeSelect" data-toggle="buttons" role="group" aria-label="タイマーモードの選択">
                     <label class="btn btn-outline-secondary btn-lg flex-fill active">
-                        <input type="radio" name="timerModeSelect" autocomplete="off" value="none" checked><i class="wi wi-na"></i> なし
+                        <input type="radio" name="timer" autocomplete="off" value="none" checked><i class="wi wi-na"></i> なし
                     </label>
                     <label class="btn btn-outline-success btn-lg flex-fill">
-                        <input type="radio" name="timerModeSelect" autocomplete="off" value="on"><i class="far fa-bell"></i> ON
+                        <input type="radio" name="timer" autocomplete="off" value="on"><i class="far fa-bell"></i> ON
                     </label>
                     <label class="btn btn-outline-danger btn-lg flex-fill">
-                        <input type="radio" name="timerModeSelect" autocomplete="off" value="off"><i class="far fa-bell-slash"></i> OFF
+                        <input type="radio" name="timer" autocomplete="off" value="off"><i class="far fa-bell-slash"></i> OFF
                     </label>
                 </div>
 
                 <div class="input-group">
-                    <input type="number" class="form-control" id="timerHour" name="timerHour" min=1 max=12 step=1 aria-describedby="timerHelpBlock" autocomplete="off" disabled>
+                    <input type="number" class="form-control" id="timerHour" name="hour" min=1 max=12 step=1 aria-describedby="timerHelpBlock" autocomplete="off" disabled>
                     <div class="input-group-append">
                         <span class="input-group-text font-weight-bold" id="timerUnitLabel">時間後</span>
                     </div>
