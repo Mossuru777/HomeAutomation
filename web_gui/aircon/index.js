@@ -24,11 +24,13 @@ $(() => {
     const timerHourHelpBlock = $("#timerHourHelpBlock");
 
     const setModeSelectDisableState = (isDisabled) => {
+        modeSelectInput.prop("disabled", isDisabled);
         if (isDisabled) {
             modeSelectLabel.addClass("disabled");
             setTempRangeFromMode("disabled");
         } else {
             modeSelectLabel.removeClass("disabled");
+            modeSelectInput.removeClass("disabled");
             const checkedMode = modeSelectInput.filter(":checked");
             if (checkedMode.length === 1) {
                 const mode = $(checkedMode[0]).val();
@@ -88,11 +90,10 @@ $(() => {
         const isDisabled = $(event.target).val() === "false";
         setModeSelectDisableState(isDisabled);
         [powerfulSelectLabel, fanSpeedSelectLabel, swingSelectLabel].forEach((element) => {
-            if (isDisabled) {
-                element.addClass("disabled");
-            } else {
-                element.removeClass("disabled");
-            }
+            isDisabled ? element.addClass("disabled") : element.removeClass("disabled");
+        });
+        [powerfulSelectInput, fanSpeedSelectInput, swingSelectInput].forEach((element) => {
+            element.prop("disabled", isDisabled);
         });
     });
 
@@ -121,16 +122,25 @@ $(() => {
 
     // submit event
     submitBtn.on("click", (event) => {
-        const query = form.serialize();
-        jQuery.getJSON("/api/v1/aircon?" + query)
-            .done((data) => {
-                if (data !== undefined) {
-                    console.info(data);
-                }
-            })
-            .fail((jqXHR) => {
-                console.error(jqXHR.responseJSON);
-            });
+        if (form[0].checkValidity()) {
+            submitBtn.prop("disabled", true);
+
+            const query = form.serialize();
+            jQuery.getJSON("/api/v1/aircon?" + query)
+                .done((data) => {
+                    if (data !== undefined) {
+                        console.info(data);
+                    }
+                })
+                .fail((jqXHR) => {
+                    console.error(jqXHR.responseJSON);
+                })
+                .always(() => {
+                    submitBtn.prop("disabled", false);
+                });
+        } else {
+            form[0].reportValidity();
+        }
         event.preventDefault();
     });
 });
