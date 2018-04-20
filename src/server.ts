@@ -17,6 +17,17 @@ export class Server {
     private readonly tcp_http_server: http.Server | undefined;
 
     constructor(config: Config) {
+        /* static contents */
+
+        // Web GUI
+        this.app.use("/", express.static("web_gui"));
+
+        // Swagger UI
+        this.app.use("/api/swagger-ui", express.static("node_modules/swagger-ui-dist"));
+
+
+        /* express-openapi */
+
         // api.ymlを読み込んでOpenAPI.ApiDefinitionにキャスト
         const apiDefinition = ((): openapi.OpenApi.ApiDefinition => {
             const doc = yaml.safeLoad(fs.readFileSync("api.yml", "utf-8"));
@@ -26,9 +37,6 @@ export class Server {
             }
             throw Error("api.yml can't cast to 'OpenAPI.ApiDefinition'.");
         })();
-
-        // Swagger UI
-        this.app.use("/api/swagger-ui", express.static("node_modules/swagger-ui-dist"));
 
         // /api/v1/docs に来たら、Swagger UIで /api/v1/schema を表示
         this.app.get("/api/v1/docs", (_req, res) => res.redirect("/api/swagger-ui/?url=/api/v1/schema"));

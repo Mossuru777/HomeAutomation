@@ -13,6 +13,8 @@ const error_response_1 = require("./model/error_response");
 class Server {
     constructor(config) {
         this.app = express();
+        this.app.use("/", express.static("web_gui"));
+        this.app.use("/api/swagger-ui", express.static("node_modules/swagger-ui-dist"));
         const apiDefinition = (() => {
             const doc = yaml.safeLoad(fs.readFileSync("api.yml", "utf-8"));
             if (doc !== undefined && doc.hasOwnProperty("swagger") && doc.hasOwnProperty("info")
@@ -21,7 +23,6 @@ class Server {
             }
             throw Error("api.yml can't cast to 'OpenAPI.ApiDefinition'.");
         })();
-        this.app.use("/api/swagger-ui", express.static("node_modules/swagger-ui-dist"));
         this.app.get("/api/v1/docs", (_req, res) => res.redirect("/api/swagger-ui/?url=/api/v1/schema"));
         openapi.initialize({
             app: this.app,
