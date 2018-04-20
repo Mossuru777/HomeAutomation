@@ -82,6 +82,18 @@ exports.get.apiDoc = {
         204: {
             description: "操作に成功"
         },
+        400: {
+            description: "クエリが不正",
+            schema: {
+                $ref: "#/definitions/Error"
+            }
+        },
+        500: {
+            description: "サーバーエラー",
+            schema: {
+                $ref: "#/definitions/Error"
+            }
+        },
         default: {
             description: "予期しないエラー",
             schema: {
