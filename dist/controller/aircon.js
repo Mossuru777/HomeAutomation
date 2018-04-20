@@ -31,16 +31,20 @@ async function controllAirCon(req) {
                 resolve();
             });
         });
-    })().catch((e) => { throw e; });
+    })().catch((e) => {
+        throw e;
+    });
     try {
-        child_prcess.execSync("irsend SEND_ONCE AirCon Control");
+        child_prcess.execSync("irsend SEND_ONCE AirCon Control", { stdio: "ignore" });
     }
     catch (e) {
-        const messages = ["IR send command failed. Please check the server."];
+        const messages = ["LIRC IR send command failed. Please check the server."];
         if (lodash_1.isError(e)) {
             throw new error_response_1.ErrorResponse(500, messages, e);
         }
-        throw new error_response_1.ErrorResponse(500, messages);
+        else {
+            throw new error_response_1.ErrorResponse(500, messages);
+        }
     }
 }
 exports.controllAirCon = controllAirCon;
