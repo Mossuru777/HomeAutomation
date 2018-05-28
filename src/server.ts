@@ -25,7 +25,6 @@ export class Server {
         // Swagger UI
         this.app.use("/api/swagger-ui", express.static("node_modules/swagger-ui-dist"));
 
-
         /* express-openapi */
 
         // api.ymlを読み込んでOpenAPI.ApiDefinitionにキャスト
@@ -121,7 +120,7 @@ HTTP Server started.
 [Unix Domain Socket]
   - %s
   - http+unix://%s
-  
+
 `,
                 (config.socket_path as string),
                 (config.socket_path as string).replace(/\//g, "%2F")

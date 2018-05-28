@@ -90,7 +90,7 @@ HTTP Server started.
 [Unix Domain Socket]
   - %s
   - http+unix://%s
-  
+
 `, config.socket_path, config.socket_path.replace(/\//g, "%2F")).yellow;
         }
         if (this.tcp_http_server) {
