@@ -86,8 +86,8 @@ $(() => {
         const powerSelectChecked = powerSelect.filter(":checked");
         const timerModeSelectChecked = timerModeSelect.filter(":checked");
 
-        const isPowerDisabled = powerSelectChecked.length === 1 && powerSelectChecked.val() === "false";
-        const isOnTimerDisabled = timerModeSelectChecked.length === 1 && timerModeSelectChecked.val() !== "on";
+        const isPowerDisabled = powerSelectChecked.length !== 1 || powerSelectChecked.val() === "false";
+        const isOnTimerDisabled = timerModeSelectChecked.length !== 1 || timerModeSelectChecked.val() !== "on";
 
         const stateSelectorShouldDisabled = isPowerDisabled && isOnTimerDisabled;
         setModeSelectDisableState(stateSelectorShouldDisabled);
@@ -186,4 +186,7 @@ $(() => {
 
         event.preventDefault();
     });
+
+    // prevent double tap page scaling
+    FastClick.attach(document.body);
 });
