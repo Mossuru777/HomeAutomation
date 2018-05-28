@@ -8,6 +8,11 @@
   },
   "author": "Mossuru777",
   "license": "ISC",
+  "homepage": "https://github.com/Mossuru777/HomeAutomation",
+  "bugs": {
+    "url": "https://github.com/Mossuru777/HomeAutomation/issues"
+  },
+  "repository": "https://github.com/Mossuru777/HomeAutomation.git",
   "os": [
     "linux"
   ],
