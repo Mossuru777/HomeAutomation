@@ -82,20 +82,35 @@ $(() => {
         }
     };
 
+    const setSelectorEnableStateFromPowerAndTimerState = () => {
+        const powerSelectChecked = powerSelect.filter(":checked");
+        const timerModeSelectChecked = timerModeSelect.filter(":checked");
+
+        const isPowerDisabled = powerSelectChecked.length === 1 && powerSelectChecked.val() === "false";
+        const isOnTimerDisabled = timerModeSelectChecked.length === 1 && timerModeSelectChecked.val() !== "on";
+
+        const stateSelectorShouldDisabled = isPowerDisabled && isOnTimerDisabled;
+        setModeSelectDisableState(stateSelectorShouldDisabled);
+        [powerfulSelectLabel, fanSpeedSelectLabel, swingSelectLabel].forEach((element) => {
+            stateSelectorShouldDisabled ? element.addClass("disabled") : element.removeClass("disabled");
+        });
+        [powerfulSelectInput, fanSpeedSelectInput, swingSelectInput].forEach((element) => {
+            element.prop("disabled", stateSelectorShouldDisabled);
+        });
+
+        if (isPowerDisabled) {
+            powerfulSelectLabel.addClass("disabled");
+        } else {
+            powerfulSelectLabel.removeClass("disabled");
+        }
+        powerfulSelectInput.prop(isPowerDisabled);
+    };
+
     // prevent "disabled" attributed button (checkbox/radio type) click event
     $('.btn-group').on("click", ".disabled", () => false);
 
     // power select event
-    powerSelect.on("change", (event) => {
-        const isDisabled = $(event.target).val() === "false";
-        setModeSelectDisableState(isDisabled);
-        [powerfulSelectLabel, fanSpeedSelectLabel, swingSelectLabel].forEach((element) => {
-            isDisabled ? element.addClass("disabled") : element.removeClass("disabled");
-        });
-        [powerfulSelectInput, fanSpeedSelectInput, swingSelectInput].forEach((element) => {
-            element.prop("disabled", isDisabled);
-        });
-    });
+    powerSelect.on("change", setSelectorEnableStateFromPowerAndTimerState);
 
     // mode select event
     modeSelectInput.on("change", (event) => setTempRangeFromMode($(event.target).val()));
@@ -116,6 +131,8 @@ $(() => {
         timerHourDownBtn.prop("disabled", isTimerHourDisabled);
         isTimerHourDisabled ? timerHour.val("") : timerHour.val(1);
         isTimerHourDisabled ? timerHourHelpBlock.hide() : timerHourHelpBlock.show();
+
+        setSelectorEnableStateFromPowerAndTimerState();
     });
     timerHourUpBtn.on("click", () => timerHour[0].stepUp());
     timerHourDownBtn.on("click", () => timerHour[0].stepDown());
