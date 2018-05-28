@@ -1,27 +1,20 @@
 {
   "name": "homeautomation",
   "version": "0.0.1",
+  "private": true,
   "main": "dist/index.js",
   "bin": {
     "homeautomation": "bin/homeautomation.sh"
   },
-  "scripts": {
-    "preinstall": "node installer_files/dist/preinstall.js",
-    "install": "node installer_files/dist/install.js",
-    "postinstall": "node installer_files/dist/postinstall.js",
-    "preuninstall": "node installer_files/dist/preuninstall.js",
-    "build:main": "tsc",
-    "clean:main": "del-cli dist",
-    "lint:main": "tslint --fix --format stylish --project .",
-    "build:installer_files": "tsc --project installer_files",
-    "clean:installer_files": "del-cli installer_files/dist",
-    "lint:installer_files": "tslint --fix --format stylish --project installer_files",
-    "prepare": "npm-run-all -s clean:* lint:* build:*",
-    "dev-start": "npm-run-all -s clean:main lint:main build:main && node dist/index.js"
-  },
   "author": "Mossuru777",
   "license": "ISC",
-  "private": true,
+  "os": [
+    "linux"
+  ],
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "engineStrict": true,
   "dependencies": {
     "body-parser": "^1.18.2",
     "colors": "^1.2.1",
@@ -53,13 +46,20 @@
     "tslint-config-airbnb": "^5.8.0",
     "typescript": "^2.8.1"
   },
-  "os": [
-    "linux"
-  ],
-  "engines": {
-    "node": ">=8.9.0"
+  "scripts": {
+    "preinstall": "node installer_files/dist/preinstall.js",
+    "install": "node installer_files/dist/install.js",
+    "postinstall": "node installer_files/dist/postinstall.js",
+    "preuninstall": "node installer_files/dist/preuninstall.js",
+    "build:main": "tsc",
+    "clean:main": "del-cli dist",
+    "lint:main": "tslint --fix --format stylish --project .",
+    "build:installer_files": "tsc --project installer_files",
+    "clean:installer_files": "del-cli installer_files/dist",
+    "lint:installer_files": "tslint --fix --format stylish --project installer_files",
+    "prepare": "npm-run-all -s clean:* lint:* build:*",
+    "dev-start": "npm-run-all -s clean:main lint:main build:main && node dist/index.js"
   },
-  "engineStrict": true,
   "husky": {
     "hooks": {
       "pre-commit": "npm run prepare"
