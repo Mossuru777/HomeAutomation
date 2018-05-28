@@ -21,11 +21,11 @@ definitions:
   Error:
     required:
       - status
-      - message
+      - messages
     properties:
       status:
         description: HTTPステータスコード
         type: integer
-      message:
-        description: エラーメッセージ
-        type: string
+      messages:
+        description: エラーメッセージの配列
+        type: [string]
