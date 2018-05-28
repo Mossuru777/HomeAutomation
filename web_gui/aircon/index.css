@@ -1,0 +1,38 @@
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+#targetTempHelpBlock,
+#targetTempOffsetLabel,
+#timerHourHelpBlock {
+    display: none;
+}
+
+#targetTemp,
+#timerHour {
+    text-align: right;
+    font-size: 2.5rem;
+}
+
+#targetTempUnitLabel,
+#targetTempUpBtn,
+#targetTempDownBtn,
+#timerUnitLabel,
+#timerHourUpBtn,
+#timerHourDownBtn {
+    font-size: 1.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#submitBtn.btn-outline-primary > span.on-default-hide,
+#submitBtn.btn-primary > span.on-submit-hide,
+#submitBtn.btn-success > span.on-success-hide,
+#submitBtn.btn-danger > span.on-error-hide {
+    display: none;
+}

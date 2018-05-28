@@ -1,0 +1,73 @@
+{
+  "name": "homeautomation",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/index.js",
+  "bin": {
+    "homeautomation": "bin/homeautomation.sh"
+  },
+  "author": "Mossuru777",
+  "license": "ISC",
+  "homepage": "https://github.com/Mossuru777/HomeAutomation",
+  "bugs": {
+    "url": "https://github.com/Mossuru777/HomeAutomation/issues"
+  },
+  "repository": "https://github.com/Mossuru777/HomeAutomation.git",
+  "os": [
+    "linux"
+  ],
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "engineStrict": true,
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "colors": "^1.3.0",
+    "daikin-ir": "git+https://github.com/Mossuru777/DaikinIR.git#semver:~0.0",
+    "express": "^4.16.3",
+    "express-openapi": "^1.6.3",
+    "js-yaml": "^3.11.0",
+    "lodash": "^4.17.10",
+    "ps-node": "^0.1.6",
+    "semver": "^5.5.0",
+    "sprintf-js": "^1.1.1",
+    "swagger-ui-dist": "^3.16.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.17.0",
+    "@types/dotenv": "^4.0.3",
+    "@types/express": "^4.11.1",
+    "@types/express-openapi": "^0.11.32",
+    "@types/js-yaml": "^3.11.1",
+    "@types/lodash": "^4.14.109",
+    "@types/node": "^8.10.17",
+    "@types/semver": "^5.5.0",
+    "@types/sprintf-js": "^1.1.0",
+    "del-cli": "^1.1.0",
+    "dotenv": "^5.0.1",
+    "husky": "^0.15.0-rc.13",
+    "npm-run-all": "^4.1.3",
+    "tslint": "^5.10.0",
+    "tslint-config-airbnb": "^5.9.2",
+    "typescript": "^2.8.3"
+  },
+  "scripts": {
+    "preinstall": "node installer_files/dist/preinstall.js",
+    "install": "node installer_files/dist/install.js",
+    "postinstall": "node installer_files/dist/postinstall.js",
+    "preuninstall": "node installer_files/dist/preuninstall.js",
+    "build:main": "tsc",
+    "clean:main": "del-cli dist",
+    "lint:main": "tslint --fix --format stylish --project .",
+    "build:installer_files": "tsc --project installer_files",
+    "clean:installer_files": "del-cli installer_files/dist",
+    "lint:installer_files": "tslint --fix --format stylish --project installer_files",
+    "prepare": "npm-run-all -s clean:* lint:* build:*",
+    "dev-start": "npm-run-all -s clean:main lint:main build:main && node dist/index.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prepare"
+    }
+  }
+}

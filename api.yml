@@ -1,0 +1,31 @@
+swagger: "2.0"
+
+info:
+  version: "0.0.1"
+  title: HomeAutomation API
+
+basePath: /api/v1
+
+schemes:
+  - http
+
+consumes:
+  - application/json
+
+produces:
+  - application/json
+
+paths: {}
+
+definitions:
+  Error:
+    required:
+      - status
+      - messages
+    properties:
+      status:
+        description: HTTPステータスコード
+        type: integer
+      messages:
+        description: エラーメッセージの配列
+        type: [string]

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>エアコン - HomeAutomation Web GUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="../common.css">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
+            integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./weather-icons.min.css">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light fixed-top" role="navigation">
+    <div class="container">
+        <a class="btn btn-outline-secondary" href="../" role="button"><i class="fas fa-home"></i></a>
+        <span><i class="fas fa-leaf"></i> エアコン</span>
+        <button type="submit" class="btn btn-outline-primary" id="submitBtn">
+            <span class="on-submit-hide on-success-hide on-error-hide"><i class="fas fa-wifi"></i> 送信</span>
+            <span class="on-default-hide on-success-hide on-error-hide"><i class="fas fa-circle-notch fa-spin"></i> 処理中</span>
+            <span class="on-default-hide on-submit-hide on-error-hide"><i class="fas fa-check-circle"></i> 成功</span>
+            <span class="on-default-hide on-submit-hide on-success-hide"><i class="fas fa-exclamation-circle"></i> エラー</span>
+        </button>
+    </div>
+</nav>
+
+<div class="container">
+    <form id="form">
+        <!-- 運転状態 -->
+        <div class="form-group">
+            <label for="powerSelect"><i class="fas fa-power-off"></i> 運転状態</label>
+            <div class="container">
+                <div class="btn-group btn-group-toggle d-flex flex-wrap" id="powerSelect" data-toggle="buttons" role="group" aria-label="運転状態の選択">
+                    <label class="btn btn-outline-success btn-lg flex-fill">
+                        <input type="radio" name="power" autocomplete="off" value="true" required><i class="fas fa-play"></i> ON
+                    </label>
+                    <label class="btn btn-outline-danger btn-lg flex-fill">
+                        <input type="radio" name="power" autocomplete="off" value="false" required><i class="fas fa-stop"></i> OFF
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 運転モード -->
+        <div class="form-group">
+            <label for="modeSelect"><i class="fas fa-sliders-h"></i> 運転モード</label>
+            <div class="container">
+                <div class="btn-group btn-group-toggle d-flex flex-wrap" id="modeSelect" data-toggle="buttons" role="group" aria-label="運転モードの選択">
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="mode" autocomplete="off" value="auto" required><i class="fas fa-search"></i> 自動
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="mode" autocomplete="off" value="warm" required><i class="fas fa-fire"></i> 暖房
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="mode" autocomplete="off" value="cold" required><i class="far fa-snowflake"></i> 冷房
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="mode" autocomplete="off" value="dry" required><i class="fas fa-umbrella"></i> ドライ
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="mode" autocomplete="off" value="fan" required><i class="fas fa-sync"></i> 送風
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 目標温度 -->
+        <div class="form-group">
+            <label for="targetTemp"><i class="fas fa-thermometer-half"></i> 目標温度<span id="targetTempOffsetLabel"> (標準温度とのオフセット)</span></label>
+            <div class="container">
+                <div class="input-group">
+                    <input type="number" class="form-control" id="targetTemp" name="temp" min=0 max=0 step=1 aria-describedby="tempHelpBlock" autocomplete="off" required disabled>
+                    <div class="input-group-append">
+                        <span class="input-group-text font-weight-bold" id="targetTempUnitLabel">℃</span>
+                    </div>
+                    <div class="btn-group-vertical" role="group" aria-label="目標温度の上下ボタングループ">
+                        <button type="button" class="btn btn-outline-secondary" id="targetTempUpBtn" disabled><i class="fas fa-chevron-up"></i></button>
+                        <button type="button" class="btn btn-outline-secondary" id="targetTempDownBtn" disabled><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                </div>
+                <small id="targetTempHelpBlock" class="form-text text-muted">
+                    <span id="targetTempMinLabel">0</span>℃～<span id="targetTempMaxLabel">0</span>℃の範囲内でセットできます。
+                </small>
+            </div>
+        </div>
+
+        <!-- パワフルモード -->
+        <div class="form-group">
+            <label for="powerfulSelect"><i class="fas fa-level-up-alt"></i> パワフルモード</label>
+            <div class="container">
+                <div class="btn-group btn-group-toggle d-flex flex-wrap" id="powerfulSelect" data-toggle="buttons" role="group" aria-label="パワフルモードの選択">
+                    <label class="btn btn-outline-warning btn-lg flex-fill disabled">
+                        <input type="radio" name="powerful" autocomplete="off" value="true" required><i class="fas fa-level-up-alt"></i> ON
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill active disabled">
+                        <input type="radio" name="powerful" autocomplete="off" value="false" required checked><i class="fas fa-long-arrow-alt-right"></i> OFF
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 風量 -->
+        <div class="form-group">
+            <label for="fanSpeedSelect"><i class="fab fa-envira"></i> 風量</label>
+            <div class="container">
+                <div class="btn-group btn-group-toggle d-flex flex-wrap" id="fanSpeedSelect" data-toggle="buttons" role="group" aria-label="風量の選択">
+                    <label class="btn btn-outline-primary btn-lg flex-fill active disabled">
+                        <input type="radio" name="fan" autocomplete="off" value="auto" required checked><i class="fas fa-chart-bar"></i> 自動
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="fan" autocomplete="off" value="silent" required><i class="far fa-moon"></i> しずか
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="fan" autocomplete="off" value="1" required><i class="wi wi-strong-wind"></i> 1 / 5
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="fan" autocomplete="off" value="2" required><i class="wi wi-strong-wind"></i> 2 / 5
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="fan" autocomplete="off" value="3" required><i class="wi wi-strong-wind"></i> 3 / 5
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="fan" autocomplete="off" value="4" required><i class="wi wi-strong-wind"></i> 4 / 5
+                    </label>
+                    <label class="btn btn-outline-primary btn-lg flex-fill disabled">
+                        <input type="radio" name="fan" autocomplete="off" value="5" required><i class="wi wi-strong-wind"></i> 5 / 5
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- スイング -->
+        <div class="form-group">
+            <label for="swingSelect"><i class="fas fa-sort"></i> スイング</label>
+            <div class="container">
+                <div class="btn-group btn-group-toggle d-flex flex-wrap" id="swingSelect" data-toggle="buttons" role="group" aria-label="スイングの選択">
+                    <label class="btn btn-outline-primary btn-lg flex-fill active disabled">
+                        <input type="radio" name="swing" autocomplete="off" value="true" required checked><i class="fas fa-sort"></i> ON
+                    </label>
+                    <label class="btn btn-outline-secondary btn-lg flex-fill disabled">
+                        <input type="radio" name="swing" autocomplete="off" value="false" required><i class="fas fa-long-arrow-alt-right"></i> OFF
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- タイマー -->
+        <div class="form-group">
+            <label><i class="far fa-clock"></i> タイマー</label>
+            <div class="container">
+                <div class="btn-group btn-group-toggle d-flex flex-wrap" id="timerModeSelect" data-toggle="buttons" role="group" aria-label="タイマーモードの選択">
+                    <label class="btn btn-outline-secondary btn-lg flex-fill active">
+                        <input type="radio" name="timer" autocomplete="off" value="none" required checked><i class="wi wi-na"></i> なし
+                    </label>
+                    <label class="btn btn-outline-success btn-lg flex-fill">
+                        <input type="radio" name="timer" autocomplete="off" value="on" required><i class="far fa-bell"></i> ON
+                    </label>
+                    <label class="btn btn-outline-danger btn-lg flex-fill">
+                        <input type="radio" name="timer" autocomplete="off" value="off" required><i class="far fa-bell-slash"></i> OFF
+                    </label>
+                </div>
+
+                <div class="input-group">
+                    <input type="number" class="form-control" id="timerHour" name="hour" min=1 max=12 step=1 aria-describedby="timerHelpBlock" autocomplete="off" required disabled>
+                    <div class="input-group-append">
+                        <span class="input-group-text font-weight-bold" id="timerUnitLabel">時間後</span>
+                    </div>
+                    <div class="btn-group-vertical" role="group" aria-label="目標温度の上下ボタングループ">
+                        <button type="button" class="btn btn-outline-secondary" id="timerHourUpBtn" disabled><i class="fas fa-chevron-up"></i></button>
+                        <button type="button" class="btn btn-outline-secondary" id="timerHourDownBtn" disabled><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                </div>
+                <small id="timerHourHelpBlock" class="form-text text-muted">
+                    1～12時間後の範囲内でセットできます。
+                </small>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js"></script>
+<script src="./index.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+### HTTP Server ###
+
+# UNIX domain socket http listening
+# file path: <string>
+# set `~` or `null` to disable.
+socket_path: /var/run/homeautomation.sock
+
+# TCP http listening
+# port: <number>
+# set `~` or `null` to disable.
+tcp_port: 10080
+
+# TCP http listening hostname
+# hostname: <string>
+# set `~` or `null` to use "127.0.0.1".
+tcp_hostname: 127.0.0.1
+
+
+### AirCon ###
+
+# Daikin IR LIRC Config File
+# absolute file path: <string>
+daikin_lirc_path: /etc/lirc/lircd.conf.d/aircon.conf

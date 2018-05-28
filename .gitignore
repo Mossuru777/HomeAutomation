@@ -1,3 +1,6 @@
+.env
+config.dev.yml
+
 # Created by https://www.gitignore.io/api/osx,node,linux,windows,intellij+all
 
 ### Intellij+all ###
