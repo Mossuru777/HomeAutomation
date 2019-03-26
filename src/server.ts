@@ -31,7 +31,7 @@ export class Server {
         // api.ymlを読み込む
         const apiDefinition = ((): OpenAPI.Document => {
             const doc = yaml.safeLoad(fs.readFileSync("api.yml", "utf-8"));
-            if (doc !== undefined && doc.hasOwnProperty("swagger") && doc.hasOwnProperty("info")
+            if (doc !== undefined && doc.hasOwnProperty("openapi") && doc.hasOwnProperty("info")
                 && doc.hasOwnProperty("paths")) {
                 return doc as OpenAPI.Document;
             }
