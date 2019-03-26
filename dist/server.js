@@ -21,7 +21,7 @@ class Server {
                 && doc.hasOwnProperty("paths")) {
                 return doc;
             }
-            throw Error("api.yml can't cast to 'OpenAPI.ApiDefinition'.");
+            throw Error("api.yml is not valid.");
         })();
         this.app.get("/api/v1/docs", (_req, res) => res.redirect("/api/swagger-ui/?url=/api/v1/schema"));
         openapi.initialize({
@@ -46,9 +46,6 @@ class Server {
                 res.json(error_response);
                 res.end();
                 return res;
-            },
-            errorTransformer: (openapiError, _jsonschemaError) => {
-                return openapiError.message;
             },
             paths: "./dist/api"
         });

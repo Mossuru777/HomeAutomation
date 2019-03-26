@@ -1,4 +1,5 @@
-import { NextFunction, Operation, Request, Response } from "express-openapi";
+import { Operation } from "express-openapi";
+import { NextFunction, Request, Response } from "express-serve-static-core";
 import { controllAirCon } from "../controller/aircon";
 
 // GET /aircon

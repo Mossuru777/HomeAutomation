@@ -1,31 +1,20 @@
-swagger: "2.0"
-
+openapi: 3.0.0
 info:
-  version: "0.0.1"
+  version: 0.0.2
   title: HomeAutomation API
-
-basePath: /api/v1
-
-schemes:
-  - http
-
-consumes:
-  - application/json
-
-produces:
-  - application/json
-
 paths: {}
-
-definitions:
-  Error:
-    required:
-      - status
-      - messages
-    properties:
-      status:
-        description: HTTPステータスコード
-        type: integer
-      messages:
-        description: エラーメッセージの配列
-        type: [string]
+servers:
+  - url: /api/v1
+components:
+  schemas:
+    Error:
+      required:
+        - status
+        - messages
+      properties:
+        status:
+          description: HTTPステータスコード
+          type: integer
+        messages:
+          description: エラーメッセージの配列
+          type: string
