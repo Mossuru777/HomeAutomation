@@ -1,6 +1,6 @@
 import * as child_process from "child_process";
 import { DaikinIR } from "daikin-ir";
-import { Request } from "express-openapi";
+import { Request } from "express-serve-static-core";
 import * as fs from "fs";
 import { isError } from "lodash";
 import * as ps from "ps-node";

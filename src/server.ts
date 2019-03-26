@@ -2,6 +2,7 @@ import * as body_parser from "body-parser";
 import "colors";
 import * as express from "express";
 import * as openapi from "express-openapi";
+import { OpenAPI } from "openapi-types";
 import { NextFunction, Request, Response } from "express-serve-static-core";
 import * as fs from "fs";
 import * as http from "http";
@@ -27,18 +28,21 @@ export class Server {
 
         /* express-openapi */
 
-        // api.ymlを読み込んでOpenAPI.ApiDefinitionにキャスト
-        const apiDefinition = ((): openapi.OpenApi.ApiDefinition => {
+        // api.ymlを読み込む
+        const apiDefinition = ((): OpenAPI.Document => {
             const doc = yaml.safeLoad(fs.readFileSync("api.yml", "utf-8"));
-            if (doc !== undefined && doc.hasOwnProperty("swagger") && doc.hasOwnProperty("info")
+            if (doc !== undefined && doc.hasOwnProperty("openapi") && doc.hasOwnProperty("info")
                 && doc.hasOwnProperty("paths")) {
-                return doc as openapi.OpenApi.ApiDefinition;
+                return doc as OpenAPI.Document;
             }
-            throw Error("api.yml can't cast to 'OpenAPI.ApiDefinition'.");
+            throw Error("api.yml is not valid.");
         })();
 
         // /api/v1/docs に来たら、Swagger UIで /api/v1/schema を表示
-        this.app.get("/api/v1/docs", (_req, res) => res.redirect("/api/swagger-ui/?url=/api/v1/schema"));
+        this.app.get(
+            "/api/v1/docs",
+            (_req: Request, res: Response) => res.redirect("/api/swagger-ui/?url=/api/v1/schema")
+        );
 
         // express-openapi 初期化
         openapi.initialize({
@@ -71,10 +75,6 @@ export class Server {
                 res.end();
 
                 return res;
-            },
-
-            errorTransformer: (openapiError, _jsonschemaError) => {
-                return openapiError.message;
             },
 
             // エンドポイント実装ディレクトリ

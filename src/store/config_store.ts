@@ -15,7 +15,7 @@ export class ConfigStore {
         if (isConfig(config)) {
             this.config = config;
         } else {
-            throw Error("invalid config: " + config_path);
+            throw Error(`invalid config: ${config_path}`);
         }
     }
 

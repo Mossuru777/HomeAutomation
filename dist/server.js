@@ -17,11 +17,11 @@ class Server {
         this.app.use("/api/swagger-ui", express.static("node_modules/swagger-ui-dist"));
         const apiDefinition = (() => {
             const doc = yaml.safeLoad(fs.readFileSync("api.yml", "utf-8"));
-            if (doc !== undefined && doc.hasOwnProperty("swagger") && doc.hasOwnProperty("info")
+            if (doc !== undefined && doc.hasOwnProperty("openapi") && doc.hasOwnProperty("info")
                 && doc.hasOwnProperty("paths")) {
                 return doc;
             }
-            throw Error("api.yml can't cast to 'OpenAPI.ApiDefinition'.");
+            throw Error("api.yml is not valid.");
         })();
         this.app.get("/api/v1/docs", (_req, res) => res.redirect("/api/swagger-ui/?url=/api/v1/schema"));
         openapi.initialize({
@@ -46,9 +46,6 @@ class Server {
                 res.json(error_response);
                 res.end();
                 return res;
-            },
-            errorTransformer: (openapiError, _jsonschemaError) => {
-                return openapiError.message;
             },
             paths: "./dist/api"
         });
