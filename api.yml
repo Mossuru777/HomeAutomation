@@ -8,9 +8,7 @@ servers:
 components:
   schemas:
     Error:
-      required:
-        - status
-        - messages
+      type: object
       properties:
         status:
           description: HTTPステータスコード
@@ -18,3 +16,6 @@ components:
         messages:
           description: エラーメッセージの配列
           type: string
+      required:
+        - status
+        - messages
