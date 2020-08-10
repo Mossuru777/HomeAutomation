@@ -37,7 +37,7 @@ jobs:
           fetch-depth: 0
 
       - name: Fetch Dependencies
-        run: npm install
+        run: npm install --ignore-scripts
 
       - name: Build
         run: npm run prepare
