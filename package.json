@@ -40,7 +40,7 @@
     "@types/express-openapi": "^1.9.0",
     "@types/js-yaml": "^3.12.5",
     "@types/lodash": "^4.14.161",
-    "@types/node": "^14.10.3",
+    "@types/node": "^14.11.1",
     "@types/semver": "^7.3.4",
     "@types/sprintf-js": "^1.1.2",
     "del-cli": "^3.0.1",
