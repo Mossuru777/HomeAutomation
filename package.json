@@ -31,7 +31,7 @@
     "ps-node": "^0.1.6",
     "semver": "^7.3.2",
     "sprintf-js": "^1.1.2",
-    "swagger-ui-dist": "^3.35.0"
+    "swagger-ui-dist": "^3.35.1"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.0",
